@@ -1,0 +1,337 @@
+Задание: Реализуйте функцию, которая принимает вектор целых чисел и возвращает новый вектор, содержащий только простые числа из исходного вектора.
+#include <iostream>
+#include <vector>
+#include <cmath>
+using namespace std;
+vector<int> approximateVector(const vector<double>& nums) {
+    vector<int> approximated;
+
+    for (double num : nums) {
+        int approx = static_cast<int>(round(num));
+        approximated.push_back(approx);
+    }
+
+    return approximated;
+}
+
+int main()
+{
+    // Пример использования функции
+    vector<double> numbers = { 1.5, 2.7, 3.2, 4.8, 5.1 };
+    vector<int> approximatedNumbers = approximateVector(numbers);
+
+    // Вывод приближенных значений
+    for (int approx : approximatedNumbers) {
+        cout << approx << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
+
+--------------------------------------
+
+Задание: Напишите программу, которая запрашивает у пользователя размер вектора и затем заполняет его случайными числами от 1 до 100. Отсортируйте вектор в порядке убывания и выведите на экран отсортированный вектор.
+#include <iostream>
+#include <vector>
+#include <random>
+#include <algorithm>
+using namespace std;
+int main() 
+{
+    setlocale(LC_ALL, "rus");
+    int size;
+    cout << "Введите размер вектора: ";
+    cin >> size;
+
+    // Инициализация генератора случайных чисел
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<int> dist(1, 100);
+
+    vector<int> numbers(size);
+
+    // Заполнение вектора случайными числами
+    for (int i = 0; i < size; ++i) {
+        numbers[i] = dist(gen);
+    }
+
+    // Сортировка вектора в порядке убывания
+    sort(numbers.begin(), numbers.end(), greater<int>());
+
+    // Вывод отсортированного вектора
+    cout << "Отсортированный вектор: ";
+    for (int num : numbers) {
+        cout << num << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
+
+-----------------------------------------
+
+Задание: Реализуйте функцию, которая принимает два вектора целых чисел и возвращает новый вектор, содержащий элементы, которые присутствуют только в одном из векторов (исключая общие элементы).
+#include <iostream>
+#include <vector>
+#include <unordered_set>
+using namespace std;
+vector<int> findUniqueElements(const vector<int>& vec1, const vector<int>& vec2)
+{
+    unordered_set<int> uniqueElements;
+
+    for (int num : vec1) {
+        uniqueElements.insert(num);
+    }
+
+    for (int num : vec2) {
+        if (uniqueElements.count(num) > 0) {
+            uniqueElements.erase(num);
+        }
+        else {
+            uniqueElements.insert(num);
+        }
+    }
+
+    vector<int> result(uniqueElements.begin(), uniqueElements.end());
+    return result;
+}
+
+int main()
+{
+    // Пример использования функции
+    vector<int> vector1 = { 1, 2, 3, 4 };
+    vector<int> vector2 = { 3, 4, 5, 6 };
+
+    vector<int> uniqueElements = findUniqueElements(vector1, vector2);
+
+    // Вывод уникальных элементов
+    for (int num : uniqueElements) {
+        cout << num << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
+--------------------------------------------------------------------------
+
+Задание: Напишите программу, которая запрашивает у пользователя размер вектора и затем заполняет его значениями. После этого программа должна удалить все повторяющиеся элементы из вектора и вывести на экран обновленный вектор.
+#include <iostream>
+#include <vector>
+#include <unordered_set>
+using namespace std;
+int main() 
+{
+    setlocale(LC_ALL, "rus");
+    int size;
+    cout << "Введите размер вектора: ";
+    cin >> size;
+
+    vector<int> numbers(size);
+    cout << "Введите значения вектора: ";
+
+    // Заполнение вектора значениями
+    for (int i = 0; i < size; ++i) {
+        cin >> numbers[i];
+    }
+
+    // Удаление повторяющихся элементов
+    unordered_set<int> uniqueNumbers(numbers.begin(), numbers.end());
+    vector<int> updatedNumbers(uniqueNumbers.begin(), uniqueNumbers.end());
+
+    // Вывод обновленного вектора
+    cout << "Обновленный вектор: ";
+    for (int num : updatedNumbers) {
+        cout << num << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
+
+---------------------------------------------------------------------
+
+Задание: Реализуйте функцию, которая принимает вектор строк и возвращает новый вектор, содержащий только строки, которые начинаются с определенной подстроки (заданной пользователем).
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+vector<string> filterStrings(const vector<string>& strings, const string& prefix)
+{
+    vector<string> filteredStrings;
+
+    for (const string& str : strings)
+    {
+        if (str.substr(0, prefix.length()) == prefix) 
+        {
+            filteredStrings.push_back(str);
+        }
+    }
+
+    return filteredStrings;
+}
+
+int main()
+{
+    setlocale(LC_ALL, "rus");
+    // Пример использования функции
+    vector<string> strings = { "apple", "banana", "orange", "grape" };
+    string prefix;
+
+    cout << "Введите подстроку: ";
+    cin >> prefix;
+
+    vector<string> filteredStrings = filterStrings(strings, prefix);
+
+    // Вывод отфильтрованных строк
+    cout << "Отфильтрованные строки: ";
+    for (const string& str : filteredStrings)
+    {
+        cout << str << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
+------------------------------------------------------------------------
+Задание: Напишите программу, которая запрашивает у пользователя два вектора чисел одинакового размера. Умножьте соответствующие элементы из каждого вектора и выведите результат на экран.
+#include <iostream>
+#include <vector>
+using namespace std;
+vector<int> multiplyVectors(const vector<int>& vec1, const vector<int>& vec2)
+{
+    setlocale(LC_ALL, "rus");
+    vector<int> result;
+
+    if (vec1.size() != vec2.size()) {
+        cout << "Ошибка: векторы имеют разный размер!" << endl;
+        return result;
+    }
+
+    for (size_t i = 0; i < vec1.size(); ++i) {
+        result.push_back(vec1[i] * vec2[i]);
+    }
+
+    return result;
+}
+
+int main()
+{
+    setlocale(LC_ALL, "rus");
+    // Пример использования функции
+    int size;
+    cout << "Введите размер векторов: ";
+    cin >> size;
+
+    vector<int> vector1(size);
+    vector<int> vector2(size);
+
+    cout << "Введите элементы первого вектора: ";
+    for (int i = 0; i < size; ++i) {
+        cin >> vector1[i];
+    }
+
+    cout << "Введите элементы второго вектора: ";
+    for (int i = 0; i < size; ++i) {
+        cin >> vector2[i];
+    }
+
+    vector<int> result = multiplyVectors(vector1, vector2);
+
+    // Вывод результата умножения
+    cout << "Результат умножения: ";
+    for (int num : result) {
+        cout << num << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
+---------------------------------------------------------------------------
+
+Задание: Реализуйте функцию, которая принимает вектор чисел и возвращает новый вектор, содержащий только числа, которые являются квадратами других чисел из исходного вектора.
+#include <iostream>
+#include <vector>
+#include <cmath>
+using namespace std;
+vector<int> findSquareNumbers(const vector<int>& numbers) 
+{
+    vector<int> squareNumbers;
+
+    for (int num : numbers) {
+        int sqrtNum = static_cast<int>(sqrt(num));
+        if (sqrtNum * sqrtNum == num) {
+            squareNumbers.push_back(num);
+        }
+    }
+
+    return squareNumbers;
+}
+
+int main() 
+{
+    setlocale(LC_ALL, "rus");
+    // Пример использования функции
+    vector<int> numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+    vector<int> squareNumbers = findSquareNumbers(numbers);
+
+    // Вывод квадратных чисел
+    cout << "Квадратные числа: ";
+    for (int num : squareNumbers) {
+        cout << num << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
+-----------------------------------------------------------------
+
+Задание: Напишите программу, которая запрашивает у пользователя размер вектора и затем заполняет его значениями. Проверьте, является ли вектор палиндромом (т.е. одинаково читается слева направо и справа налево). Выведите на экран результат проверки.
+#include <iostream>
+#include <vector>
+using namespace std;
+
+bool isPalindrome(const vector<int>& numbers) {
+    int left = 0;
+    int right = numbers.size() - 1;
+
+    while (left < right) {
+        if (numbers[left] != numbers[right]) {
+            return false;
+        }
+        left++;
+        right--;
+    }
+
+    return true;
+}
+
+int main()
+{
+    setlocale(LC_ALL, "rus");
+    // Пример использования функции
+    int size;
+    cout << "Введите размер вектора: ";
+    cin >> size;
+
+    vector<int> vector(size);
+    cout << "Введите значения вектора: ";
+
+    for (int i = 0; i < size; ++i) {
+        cin >> vector[i];
+    }
+
+    bool result = isPalindrome(vector);
+
+    // Вывод результата проверки
+    if (result) {
+        cout << "Вектор является палиндромом" << endl;
+    }
+    else {
+        cout << "Вектор не является палиндромом" << endl;
+    }
+
+    return 0;
+}
+---------------------------------------------
